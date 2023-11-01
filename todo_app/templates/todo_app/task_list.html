@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="{% static 'fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+<h1>To-Do List</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Task</button>
+</form>
+<ul>
+    {% for task in tasks %}
+    <li>
+        <div class="task-item">
+            <input type="checkbox" {% if task.completed %}checked{% endif %} name="task_{{ task.id }}">
+            <span>{{ task.task_text }}</span>
+            <button class="delete-button" data-taskid="{{ task.id }}"><i class="fas fa-trash-alt"></i>Delete</button>
+        </div>
+    </li>
+    {% empty %}
+    <li>No tasks yet.</li>
+    {% endfor %}
+</ul>
+
+<script src="{% static 'script.js' %}"></script>
+</body>
+
+</html>
